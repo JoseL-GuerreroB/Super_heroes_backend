@@ -21,7 +21,10 @@ export default class SuperherosService {
   ) {}
 
   async Find_All_Superheros_Service() {
-    return await this.SuperheroModel.find();
+    return await this.SuperheroModel.find().populate({
+      path: 'powers',
+      select: 'name',
+    });
   }
 
   async ValidatePowers(powers: string[]) {
@@ -67,7 +70,7 @@ export default class SuperherosService {
   async Find_One_Superhero_Service(id: string) {
     const superhero = await this.SuperheroModel.findOne({
       _id: id,
-    });
+    }).populate('powers');
     if (!superhero)
       throw new HttpException(
         'Superheroe no encontrado.',
@@ -153,7 +156,7 @@ export default class SuperherosService {
       id,
       { $set: newData },
       { new: true },
-    );
+    ).populate('powers');
   }
 
   async Delete_Superhero_Service(id: string) {

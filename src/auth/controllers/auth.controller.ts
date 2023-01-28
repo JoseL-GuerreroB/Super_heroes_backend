@@ -34,7 +34,7 @@ export class AuthController {
     try {
       const user = await this.authService.Register_Service(data);
       await this.tokenService.generateRefreshToken(user.id, res);
-      return { ok: true, user };
+      return { ok: true };
     } catch (error) {
       console.log(error);
       throw new HttpException(error.message, error.status);
@@ -49,7 +49,7 @@ export class AuthController {
     try {
       const user = await this.authService.Login_Service(data);
       await this.tokenService.generateRefreshToken(user.id, res);
-      return { ok: true, user };
+      return { ok: true };
     } catch (error) {
       throw new HttpException(error.message, error.status);
     }

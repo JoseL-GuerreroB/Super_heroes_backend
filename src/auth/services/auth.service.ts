@@ -38,6 +38,7 @@ export default class AuthService {
     const user = await this.UserModel.findOne({
       email: data.email,
     });
+    console.log(user);
     if (!user)
       throw new HttpException('Error de credenciales.', HttpStatus.NOT_FOUND);
     const thePasswordIsCorrect = await comparePasswords(
@@ -79,11 +80,13 @@ export default class AuthService {
       else data.email = findEmail.email;
     }
     const newUserData = data;
-    return await this.UserModel.findByIdAndUpdate(
+    const userData = await this.UserModel.findByIdAndUpdate(
       id,
       { $set: newUserData },
       { new: true },
     );
+    userData.password = undefined;
+    return userData;
   }
 
   async Update_Password_Service(id: number, data: Update_Password_User_DTO) {

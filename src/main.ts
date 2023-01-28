@@ -12,6 +12,10 @@ async function bootstrap() {
       forbidNonWhitelisted: true,
     }),
   );
+  app.enableCors({
+    origin: process.env.ORIGIN,
+    credentials: true,
+  });
   app.use(cookieParser());
   await app.listen(process.env.PORT);
 }
